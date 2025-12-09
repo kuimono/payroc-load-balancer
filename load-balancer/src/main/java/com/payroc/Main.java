@@ -2,6 +2,7 @@ package com.payroc;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        LoadBalancer loadBalancer = new LoadBalancer();
+        loadBalancer.start();
     }
 }
