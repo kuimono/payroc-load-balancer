@@ -1,12 +1,48 @@
 package com.payroc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.slf4j.Logger;
 
 public class LoadBalancer {
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(LoadBalancer.class);
+    private final int port;
+
+    public LoadBalancer(int port) {
+        this.port = port;
+    }
 
     public void start() {
         logger.info("Load Balancer started.");
-        // Load balancer logic would go here
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                Thread.ofVirtual().name("client-handler").start(() -> handleClientSocket(clientSocket));
+            }
+        } catch (IOException e) {
+            logger.error("Load balancer failed at port " + port, e);
+        }
     }
+
+    private void handleClientSocket(Socket clientSocket){
+        try(clientSocket;
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        ) {
+            String request = in.readLine();
+            logger.info("Received request: " + request);
+            
+            // TODO distribute incoming requests to backend servers
+            String response = "Bye";
+            out.println(response);
+        } catch (IOException e) {
+            logger.error("Error handling request", e);
+            return;
+        }
+    }   
 }
