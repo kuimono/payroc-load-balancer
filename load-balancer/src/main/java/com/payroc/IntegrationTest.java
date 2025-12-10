@@ -1,0 +1,81 @@
+package com.payroc;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.payroc.backend.BackendServer;
+import com.payroc.client.Client;
+import com.payroc.loadbalancer.BackendSocketResolver;
+import com.payroc.loadbalancer.LoadBalancer;
+
+/**
+ * An integration test that starts multiple backend servers and a load balancer,
+ * then sends test messages through the load balancer to verify end-to-end functionality.
+ */
+public class IntegrationTest {
+    private static final Logger logger = LoggerFactory.getLogger(IntegrationTest.class);
+
+    public static void main(String[] args) {
+        // configurations
+        List<String> backendHostAndPorts = List.of(
+            "localhost:20001",
+            "localhost:20002",
+            "localhost:20003",
+            "localhost:20004"
+        );
+        int lbPort = 20005;
+
+        // create service instances
+        List<BackendServer> backendServers = backendHostAndPorts.stream()
+            .map(hostAndPort -> new BackendServer(hostAndPort))
+            .toList();
+        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendHostAndPorts);
+        LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendSocketResolver);
+
+        // start services
+        List<Thread> backendThreads = backendServers.stream()
+            .map(backendServer -> Thread.ofVirtual()
+                .name(backendServer.getServerId())
+                .unstarted(() -> backendServer.start()))
+            .toList();
+        backendThreads.forEach(Thread::start);
+
+        Thread lbThread = Thread.ofVirtual()
+            .name("load-balancer")
+            .unstarted(() -> loadBalancer.start());
+        lbThread.start();
+
+        // pause and send test messages
+        try {
+            Thread.sleep(Duration.ofMillis(2000));
+        } catch (InterruptedException e) {
+            logger.error("Main thread interrupted", e);
+        }
+        testSendMessage(lbPort);
+
+        joinThread(lbThread);
+        backendThreads.forEach(IntegrationTest::joinThread);
+    }
+
+    private static void testSendMessage(int port) {
+        var clientThreads = IntStream.range(0, 5)
+            .mapToObj(i -> Thread.ofVirtual()
+                .name("client-" + i)
+                .unstarted(() -> Client.sendMessage("client-" + i, port, 3)))
+            .toList();
+        clientThreads.forEach(Thread::start);
+        clientThreads.forEach(IntegrationTest::joinThread);
+    }
+
+    private static void joinThread(Thread thread) {
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            logger.error("Thread " + thread.getName() + " interrupted", e);
+        }
+    }
+}
