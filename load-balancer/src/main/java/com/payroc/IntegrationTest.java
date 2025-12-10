@@ -59,12 +59,12 @@ public class IntegrationTest {
         healthCheckThread.start();
 
         // pause and send test messages
-        try {
-            Thread.sleep(Duration.ofMillis(2000));
-        } catch (InterruptedException e) {
-            logger.error("Main thread interrupted", e);
-        }
+        pause(Duration.ofMillis(2000));
         testSendMessage(lbPort);
+
+        // pause and kill one of the backend servers
+        pause(Duration.ofMillis(60000));
+        backendThreads.get(2).interrupt();
 
         joinThread(healthCheckThread);
         joinThread(lbThread);
@@ -80,6 +80,14 @@ public class IntegrationTest {
         clientThreads.forEach(Thread::start);
         clientThreads.forEach(IntegrationTest::joinThread);
     }
+
+    private static void pause(Duration duration) {
+        try {
+            Thread.sleep(duration);
+        } catch (InterruptedException e) {
+            logger.error("Pause interrupted", e);
+        }
+    }   
 
     private static void joinThread(Thread thread) {
         try {

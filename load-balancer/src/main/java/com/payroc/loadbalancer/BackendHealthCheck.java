@@ -36,7 +36,7 @@ public class BackendHealthCheck {
         while(true) {
             performHealthCheck();
             try {
-                Thread.sleep(30000); // wait for 30 seconds before next check
+                Thread.sleep(20000); // wait for 20 seconds before next check
             } catch (InterruptedException e) {
                 logger.error("Health check interrupted", e);
                 break;
