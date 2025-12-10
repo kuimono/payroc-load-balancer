@@ -1,4 +1,4 @@
-package com.payroc;
+package com.payroc.loadbalancer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,9 +8,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoadBalancer {
-    private final Logger logger = org.slf4j.LoggerFactory.getLogger(LoadBalancer.class);
+    private final Logger logger = LoggerFactory.getLogger(LoadBalancer.class);
     private final int port;
 
     public LoadBalancer(int port) {
@@ -38,7 +39,7 @@ public class LoadBalancer {
             logger.info("Received request: " + request);
             
             // TODO distribute incoming requests to backend servers
-            String response = "Bye";
+            String response = "Response body";
             out.println(response);
         } catch (IOException e) {
             logger.error("Error handling request", e);
