@@ -23,6 +23,10 @@ public class BackendServer {
         this.port = port;
     }
 
+    public String getServerId() {
+        return serverId;
+    }
+
     public void start() {
         logger.info("BackendServer " + serverId + " started.");
         try (ServerSocket serverSocket = new ServerSocket(port)) {

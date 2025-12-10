@@ -15,18 +15,27 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        // configurations
         List<Integer> backendPorts = List.of(20001, 20002, 20003, 20004);
-        List<Thread> backendThreads = backendPorts.stream()
-            .map(port -> Thread.ofVirtual()
-                .name("backend-server-" + port)
-                .unstarted(() -> startBackendServer("backend-" + port, port)))
+        int lbPort = 20005;
+
+        // create service instances
+        List<BackendServer> backendServers = backendPorts.stream()
+            .map(port -> new BackendServer("backend-" + port, port))
+            .toList();
+        LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendPorts);
+
+        // start services
+        List<Thread> backendThreads = backendServers.stream()
+            .map(backendServer -> Thread.ofVirtual()
+                .name(backendServer.getServerId())
+                .unstarted(() -> backendServer.start()))
             .toList();
         backendThreads.forEach(Thread::start);
 
-        int lbPort = 20005;
         Thread lbThread = Thread.ofVirtual()
             .name("load-balancer")
-            .unstarted(() -> startLoadBalancer(lbPort, backendPorts));
+            .unstarted(() -> loadBalancer.start());
         lbThread.start();
 
         // pause and send test messages
@@ -39,16 +48,6 @@ public class Main {
 
         joinThread(lbThread);
         backendThreads.forEach(Main::joinThread);
-    }
-
-    private static void startBackendServer(String serverId, int port) {
-        BackendServer backendServer = new BackendServer(serverId, port);
-        backendServer.start();
-    }
-
-    private static void startLoadBalancer(int port, List<Integer> backendPorts) {
-        LoadBalancer loadBalancer = new LoadBalancer(port, backendPorts);
-        loadBalancer.start();
     }
 
     private static void testSendMessage(int port) {
