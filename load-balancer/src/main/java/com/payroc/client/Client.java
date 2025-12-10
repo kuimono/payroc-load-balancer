@@ -12,8 +12,8 @@ public class Client {
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
 
 
-    public static void sendMessage(String clientName, int port) {
-        for (int i = 0; i < 3; i++) {
+    public static void sendMessage(String clientName, int port, int repeats) {
+        for (int i = 0; i < repeats; i++) {
             try(
                 Socket clientSocket = new Socket("localhost", port);
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);

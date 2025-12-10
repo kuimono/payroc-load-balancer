@@ -19,13 +19,12 @@ public class Main {
             .unstarted(() -> startLoadBalancer(port));
         lbThread.start();
 
-        // pause for test
+        // pause and send test messages
         try {
             Thread.sleep(Duration.ofMillis(2000));
         } catch (InterruptedException e) {
             logger.error("Main thread interrupted", e);
         }
-
         testSendMessage(port);
 
         joinThread(lbThread);
@@ -40,7 +39,7 @@ public class Main {
         var clientThreads = IntStream.range(0, 5)
             .mapToObj(i -> Thread.ofVirtual()
                 .name("client-" + i)
-                .unstarted(() -> Client.sendMessage("client-" + i, port)))
+                .unstarted(() -> Client.sendMessage("client-" + i, port, 10)))
             .toList();
         clientThreads.forEach(Thread::start);
         clientThreads.forEach(Main::joinThread);
