@@ -3,6 +3,7 @@ package com.payroc.loadbalancer;
 import java.net.Socket;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +12,23 @@ public class BackendHealthCheck {
     private static final Logger logger = LoggerFactory.getLogger(BackendHealthCheck.class);
 
     private final List<String> backendHostAndPorts;
+    private final Function<String, Boolean> healthCheckFunction;
     private final List<Consumer<List<String>>> healthyBackendsCallbacks;
 
     public BackendHealthCheck(
         List<String> backendHostAndPorts,
         List<Consumer<List<String>>> healthyBackendsCallbacks
     ) {
+        this(backendHostAndPorts, BackendHealthCheck::isBackendHealthy, healthyBackendsCallbacks);
+    }
+
+    protected BackendHealthCheck(
+        List<String> backendHostAndPorts,
+        Function<String, Boolean> healthCheckFunction,
+        List<Consumer<List<String>>> healthyBackendsCallbacks   // for testing purposes
+    ) {
         this.backendHostAndPorts = backendHostAndPorts;
+        this.healthCheckFunction = healthCheckFunction;
         this.healthyBackendsCallbacks = healthyBackendsCallbacks;
     }
 
@@ -33,14 +44,14 @@ public class BackendHealthCheck {
         }
     }
 
-    private void performHealthCheck() {
+    protected void performHealthCheck() {
         List<String> healthyBackends = backendHostAndPorts.stream()
-            .filter(this::isBackendHealthy)
+            .filter(hostAndPort -> healthCheckFunction.apply(hostAndPort))
             .toList();
         healthyBackendsCallbacks.forEach(callback -> callback.accept(healthyBackends));
     }
 
-    private boolean isBackendHealthy(String backend) {
+    private static boolean isBackendHealthy(String backend) {
         String[] parts = backend.split(":");
         String host = parts[0];
         int port = Integer.parseInt(parts[1]);

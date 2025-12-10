@@ -1,29 +1,37 @@
 package com.payroc.loadbalancer;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Resolves backend sockets for the load balancer.
+ */
 public class BackendSocketResolver {
+    private final Logger logger = LoggerFactory.getLogger(BackendSocketResolver.class);
+
     private List<String> healthyHostAndPorts;
 
     public BackendSocketResolver() {
         this.healthyHostAndPorts = List.of();
     }
 
+    /**
+     * Updates the list of healthy backend host and ports.
+     * This method is typically called by the health check component.
+     * @param healthyHostAndPorts the list of healthy backend host and ports
+     */
     public void updateHealthyBackends(List<String> healthyHostAndPorts) {
+        logger.info("Updating healthy backends: " + healthyHostAndPorts);
         this.healthyHostAndPorts = healthyHostAndPorts;
     }
 
-    public Socket resolveBackendSocket() throws UnknownHostException, IOException {
-        // randomly select a backend port
-        String backendHostAndPort = resolveBackendHostAndPort();
-        String[] parts = backendHostAndPort.split(":");
-        return new Socket(parts[0], Integer.parseInt(parts[1]));
-    }
-
-    protected String resolveBackendHostAndPort() {
+    /**
+     * Resolves a backend host and port from the list of healthy backends.
+     * @return a backend host and port in the format "host:port"
+     */
+    public String resolveBackendHostAndPort() {
         if (healthyHostAndPorts.isEmpty()) {
             throw new IllegalStateException("No healthy backends available");
         }

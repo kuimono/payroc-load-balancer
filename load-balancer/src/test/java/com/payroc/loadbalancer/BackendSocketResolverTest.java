@@ -43,4 +43,15 @@ public class BackendSocketResolverTest {
             assertTrue(ratio > 0.2 && ratio < 0.3, "Backend " + hostAndPort + " selected too few or too many times: " + ratio);
         }
     }
+
+    @Test
+    public void testResolveBackendHostAndPort_NoHealthyBackends() {
+        resolver.updateHealthyBackends(List.of());
+
+        try {
+            resolver.resolveBackendHostAndPort();
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().contains("No healthy backends available"));
+        }
+    }
 }

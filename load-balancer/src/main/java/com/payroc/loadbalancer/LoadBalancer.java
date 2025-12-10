@@ -34,7 +34,9 @@ public class LoadBalancer {
 
     private void handleClientSocket(Socket clientSocket) {
         try {
-            Socket backendSocket = backendSocketResolver.resolveBackendSocket();
+            String backendHostAndPort = backendSocketResolver.resolveBackendHostAndPort();
+            String[] parts = backendHostAndPort.split(":");
+            Socket backendSocket = new Socket(parts[0], Integer.parseInt(parts[1]));
             redirectToBackend(clientSocket, backendSocket);
         } catch (IOException e) {
             logger.error("Error handling client socket", e);
