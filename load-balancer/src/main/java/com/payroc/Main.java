@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.payroc.backend.BackendServer;
 import com.payroc.client.Client;
+import com.payroc.loadbalancer.BackendSocketResolver;
 import com.payroc.loadbalancer.LoadBalancer;
 
 public class Main {
@@ -23,7 +24,8 @@ public class Main {
         List<BackendServer> backendServers = backendPorts.stream()
             .map(port -> new BackendServer("backend-" + port, port))
             .toList();
-        LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendPorts);
+        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendPorts);
+        LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendSocketResolver);
 
         // start services
         List<Thread> backendThreads = backendServers.stream()
