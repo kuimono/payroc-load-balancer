@@ -8,9 +8,11 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Simple client to send messages to the load balancer.
+ */
 public class Client {
     private static final Logger logger = LoggerFactory.getLogger(Client.class);
-
 
     public static void sendMessage(String clientName, int port, int repeats) {
         for (int i = 0; i < repeats; i++) {

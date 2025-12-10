@@ -24,14 +24,14 @@ public class BackendServer {
     }
 
     public void start() {
-        logger.info("BackendServer started.");
+        logger.info("BackendServer " + serverId + " started.");
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 Thread.ofVirtual().name("client-handler-" + serverId).start(() -> handleClientSocket(clientSocket));
             }
         } catch (IOException e) {
-            logger.error("BackendServer failed at port " + port, e);
+            logger.error("BackendServer " + serverId + " failed at port " + port, e);
         }
     }
 
@@ -45,7 +45,7 @@ public class BackendServer {
             String response = "Response body from " + serverId;
             out.println(response);
         } catch (IOException e) {
-            logger.error("Error handling request", e);
+            logger.error("Error handling request on BackendServer " + serverId, e);
             return;
         }
     }   
