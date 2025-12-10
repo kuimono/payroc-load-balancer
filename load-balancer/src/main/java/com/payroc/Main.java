@@ -4,6 +4,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.payroc.loadbalancer.BackendHealthCheck;
 import com.payroc.loadbalancer.BackendSocketResolver;
 import com.payroc.loadbalancer.LoadBalancer;
 
@@ -24,7 +25,11 @@ public class Main {
         int lbPort = 20005;
 
         // create service instances
-        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendHostAndPorts);
+        BackendSocketResolver backendSocketResolver = new BackendSocketResolver();
+        BackendHealthCheck backendHealthCheck = new BackendHealthCheck(
+            backendHostAndPorts,
+            List.of(backendSocketResolver::updateHealthyBackends)
+        );
         LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendSocketResolver);
 
         // start services
@@ -32,7 +37,12 @@ public class Main {
             .name("load-balancer")
             .unstarted(() -> loadBalancer.start());
         lbThread.start();
+        Thread healthCheckThread = Thread.ofVirtual()
+            .name("backend-health-check")
+            .unstarted(() -> backendHealthCheck.startHealthCheck());
+        healthCheckThread.start();
 
+        joinThread(healthCheckThread);
         joinThread(lbThread);
     }
 

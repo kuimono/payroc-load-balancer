@@ -6,10 +6,14 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public class BackendSocketResolver {
-    List<String> backendHostAndPorts;
+    private List<String> healthyHostAndPorts;
 
-    public BackendSocketResolver(List<String> backendHostAndPorts) {
-        this.backendHostAndPorts = backendHostAndPorts;
+    public BackendSocketResolver() {
+        this.healthyHostAndPorts = List.of();
+    }
+
+    public void updateHealthyBackends(List<String> healthyHostAndPorts) {
+        this.healthyHostAndPorts = healthyHostAndPorts;
     }
 
     public Socket resolveBackendSocket() throws UnknownHostException, IOException {
@@ -20,8 +24,12 @@ public class BackendSocketResolver {
     }
 
     protected String resolveBackendHostAndPort() {
-        int randomIndex = (int) (Math.random() * backendHostAndPorts.size());
-        return backendHostAndPorts.get(randomIndex);
+        if (healthyHostAndPorts.isEmpty()) {
+            throw new IllegalStateException("No healthy backends available");
+        }
+
+        int randomIndex = (int) (Math.random() * healthyHostAndPorts.size());
+        return healthyHostAndPorts.get(randomIndex);
     }
 
 }

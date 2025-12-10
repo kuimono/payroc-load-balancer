@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.payroc.backend.BackendServer;
 import com.payroc.client.Client;
+import com.payroc.loadbalancer.BackendHealthCheck;
 import com.payroc.loadbalancer.BackendSocketResolver;
 import com.payroc.loadbalancer.LoadBalancer;
 
@@ -33,7 +34,11 @@ public class IntegrationTest {
         List<BackendServer> backendServers = backendHostAndPorts.stream()
             .map(hostAndPort -> new BackendServer(hostAndPort))
             .toList();
-        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendHostAndPorts);
+        BackendSocketResolver backendSocketResolver = new BackendSocketResolver();
+        BackendHealthCheck backendHealthCheck = new BackendHealthCheck(
+            backendHostAndPorts,
+            List.of(backendSocketResolver::updateHealthyBackends)
+        );
         LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendSocketResolver);
 
         // start services
@@ -48,6 +53,10 @@ public class IntegrationTest {
             .name("load-balancer")
             .unstarted(() -> loadBalancer.start());
         lbThread.start();
+        Thread healthCheckThread = Thread.ofVirtual()
+            .name("backend-health-check")
+            .unstarted(() -> backendHealthCheck.startHealthCheck());
+        healthCheckThread.start();
 
         // pause and send test messages
         try {
@@ -57,6 +66,7 @@ public class IntegrationTest {
         }
         testSendMessage(lbPort);
 
+        joinThread(healthCheckThread);
         joinThread(lbThread);
         backendThreads.forEach(IntegrationTest::joinThread);
     }
