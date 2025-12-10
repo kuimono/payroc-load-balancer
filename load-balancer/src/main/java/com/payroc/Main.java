@@ -17,14 +17,19 @@ public class Main {
 
     public static void main(String[] args) {
         // configurations
-        List<Integer> backendPorts = List.of(20001, 20002, 20003, 20004);
+        List<String> backendHostAndPorts = List.of(
+            "localhost:20001",
+            "localhost:20002",
+            "localhost:20003",
+            "localhost:20004"
+        );
         int lbPort = 20005;
 
         // create service instances
-        List<BackendServer> backendServers = backendPorts.stream()
-            .map(port -> new BackendServer("backend-" + port, port))
+        List<BackendServer> backendServers = backendHostAndPorts.stream()
+            .map(hostAndPort -> new BackendServer(hostAndPort))
             .toList();
-        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendPorts);
+        BackendSocketResolver backendSocketResolver = new BackendSocketResolver(backendHostAndPorts);
         LoadBalancer loadBalancer = new LoadBalancer(lbPort, backendSocketResolver);
 
         // start services

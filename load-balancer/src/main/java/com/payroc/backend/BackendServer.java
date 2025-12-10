@@ -18,9 +18,13 @@ public class BackendServer {
     private final String serverId;
     private final int port;
 
-    public BackendServer(String serverId, int port) {
-        this.serverId = serverId;
-        this.port = port;
+    public BackendServer(String hostAndPort) {
+        String[] parts = hostAndPort.split(":");
+        if (!"localhost".equals(parts[0])) {
+            throw new IllegalArgumentException("Only localhost is supported");
+        }
+        this.port = Integer.parseInt(parts[1]);
+        this.serverId = "backend-" + parts[1];
     }
 
     public String getServerId() {

@@ -6,16 +6,22 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public class BackendSocketResolver {
-    List<Integer> backendPorts;
+    List<String> backendHostAndPorts;
 
-    public BackendSocketResolver(List<Integer> backendPorts) {
-        this.backendPorts = backendPorts;
+    public BackendSocketResolver(List<String> backendHostAndPorts) {
+        this.backendHostAndPorts = backendHostAndPorts;
     }
 
     public Socket resolveBackendSocket() throws UnknownHostException, IOException {
         // randomly select a backend port
-        int randomIndex = (int) (Math.random() * backendPorts.size());
-        return new Socket("localhost", backendPorts.get(randomIndex));
+        String backendHostAndPort = resolveBackendHostAndPort();
+        String[] parts = backendHostAndPort.split(":");
+        return new Socket(parts[0], Integer.parseInt(parts[1]));
+    }
+
+    protected String resolveBackendHostAndPort() {
+        int randomIndex = (int) (Math.random() * backendHostAndPorts.size());
+        return backendHostAndPorts.get(randomIndex);
     }
 
 }
