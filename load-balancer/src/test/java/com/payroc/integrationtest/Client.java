@@ -1,4 +1,4 @@
-package com.payroc.client;
+package com.payroc.integrationtest;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package com.payroc;
+package com.payroc.integrationtest;
 
 import java.time.Duration;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.payroc.backend.BackendServer;
-import com.payroc.client.Client;
 import com.payroc.loadbalancer.BackendHealthCheck;
 import com.payroc.loadbalancer.BackendSocketResolver;
 import com.payroc.loadbalancer.LoadBalancer;

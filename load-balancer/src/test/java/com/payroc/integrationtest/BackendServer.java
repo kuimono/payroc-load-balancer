@@ -1,4 +1,4 @@
-package com.payroc.backend;
+package com.payroc.integrationtest;
 
 import java.io.BufferedReader;
 import java.io.IOException;

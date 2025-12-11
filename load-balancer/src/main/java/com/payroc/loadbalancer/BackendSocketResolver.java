@@ -32,6 +32,9 @@ public class BackendSocketResolver {
      * @return a backend host and port in the format "host:port"
      */
     public String resolveBackendHostAndPort() {
+        // since healthyHostAndPorts can be updated asynchronously, we take a snapshot of the reference
+        var healthyHostAndPorts = this.healthyHostAndPorts;
+
         if (healthyHostAndPorts.isEmpty()) {
             throw new IllegalStateException("No healthy backends available");
         }

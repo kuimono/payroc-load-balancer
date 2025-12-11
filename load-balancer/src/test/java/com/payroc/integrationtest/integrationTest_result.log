@@ -1,0 +1,119 @@
+2025-12-11 06:48:35:888 +0000 [load-balancer] INFO com.payroc.loadbalancer.LoadBalancer - Load Balancer started.
+2025-12-11 06:48:35:891 +0000 [backend-20004] INFO com.payroc.backend.BackendServer - BackendServer backend-20004 started.
+2025-12-11 06:48:35:891 +0000 [backend-20001] INFO com.payroc.backend.BackendServer - BackendServer backend-20001 started.
+2025-12-11 06:48:35:891 +0000 [backend-20003] INFO com.payroc.backend.BackendServer - BackendServer backend-20003 started.
+2025-12-11 06:48:35:891 +0000 [backend-20002] INFO com.payroc.backend.BackendServer - BackendServer backend-20002 started.
+2025-12-11 06:48:35:896 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20001 is healthy.
+2025-12-11 06:48:35:897 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20002 is healthy.
+2025-12-11 06:48:35:897 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:35:898 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:35:898 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20003 is healthy.
+2025-12-11 06:48:35:898 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:35:898 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20004 is healthy.
+2025-12-11 06:48:35:898 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:35:898 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendSocketResolver - Updating healthy backends: [localhost:20001, localhost:20002, localhost:20003, localhost:20004]
+2025-12-11 06:48:37:907 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 0
+2025-12-11 06:48:37:907 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 0
+2025-12-11 06:48:37:907 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 0
+2025-12-11 06:48:37:907 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 0
+2025-12-11 06:48:37:907 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 0
+2025-12-11 06:48:37:907 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:48:37:907 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:48:37:907 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20003
+2025-12-11 06:48:37:907 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:48:37:907 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:48:37:908 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 1
+2025-12-11 06:48:37:908 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 1
+2025-12-11 06:48:37:908 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 1
+2025-12-11 06:48:37:908 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 1
+2025-12-11 06:48:37:908 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 1
+2025-12-11 06:48:37:908 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:48:37:908 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:48:37:909 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20003
+2025-12-11 06:48:37:909 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20003
+2025-12-11 06:48:37:909 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:48:37:909 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 2
+2025-12-11 06:48:37:909 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 2
+2025-12-11 06:48:37:909 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 2
+2025-12-11 06:48:37:909 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 2
+2025-12-11 06:48:37:909 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 2
+2025-12-11 06:48:37:909 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:48:37:910 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:48:37:910 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:48:37:910 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:48:37:910 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20003
+2025-12-11 06:48:55:906 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20001 is healthy.
+2025-12-11 06:48:55:907 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:55:907 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20002 is healthy.
+2025-12-11 06:48:55:908 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:55:908 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20003 is healthy.
+2025-12-11 06:48:55:908 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:55:908 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20004 is healthy.
+2025-12-11 06:48:55:909 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:48:55:909 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendSocketResolver - Updating healthy backends: [localhost:20001, localhost:20002, localhost:20003, localhost:20004]
+2025-12-11 06:49:15:916 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20001 is healthy.
+2025-12-11 06:49:15:917 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:15:917 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20002 is healthy.
+2025-12-11 06:49:15:917 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:15:918 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20003 is healthy.
+2025-12-11 06:49:15:918 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:15:918 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20004 is healthy.
+2025-12-11 06:49:15:918 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendSocketResolver - Updating healthy backends: [localhost:20001, localhost:20002, localhost:20003, localhost:20004]
+2025-12-11 06:49:15:918 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:35:925 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20001 is healthy.
+2025-12-11 06:49:35:926 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:35:926 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20002 is healthy.
+2025-12-11 06:49:35:926 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:35:927 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20003 is healthy.
+2025-12-11 06:49:35:927 +0000 [client-handler-backend-20003] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:35:927 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20004 is healthy.
+2025-12-11 06:49:35:928 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendSocketResolver - Updating healthy backends: [localhost:20001, localhost:20002, localhost:20003, localhost:20004]
+2025-12-11 06:49:35:928 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:37:917 +0000 [backend-20003] ERROR com.payroc.backend.BackendServer - BackendServer backend-20003 failed at port 20003
+java.net.SocketException: Closed by interrupt
+        at java.base/java.net.ServerSocket.implAccept(Unknown Source)
+        at java.base/java.net.ServerSocket.platformImplAccept(Unknown Source)
+        at java.base/java.net.ServerSocket.implAccept(Unknown Source)
+        at java.base/java.net.ServerSocket.implAccept(Unknown Source)
+        at java.base/java.net.ServerSocket.accept(Unknown Source)
+        at com.payroc.backend.BackendServer.start(BackendServer.java:38)
+        at com.payroc.integrationtest.IntegrationTest.lambda$3(IntegrationTest.java:48)
+        at java.base/java.lang.VirtualThread.run(Unknown Source)
+2025-12-11 06:49:55:936 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20001 is healthy.
+2025-12-11 06:49:55:936 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:55:936 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20002 is healthy.
+2025-12-11 06:49:55:936 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:49:55:940 +0000 [backend-health-check] WARN com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20003 is unhealthy: Connection refused
+2025-12-11 06:49:55:941 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendHealthCheck - Backend localhost:20004 is healthy.
+2025-12-11 06:49:55:941 +0000 [backend-health-check] INFO com.payroc.loadbalancer.BackendSocketResolver - Updating healthy backends: [localhost:20001, localhost:20002, localhost:20004]
+2025-12-11 06:49:55:941 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: null
+2025-12-11 06:50:07:923 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 0
+2025-12-11 06:50:07:923 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 0
+2025-12-11 06:50:07:923 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 0
+2025-12-11 06:50:07:924 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 0
+2025-12-11 06:50:07:924 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 0
+2025-12-11 06:50:07:924 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:924 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:924 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:924 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:925 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:926 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 1
+2025-12-11 06:50:07:926 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 1
+2025-12-11 06:50:07:926 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 1
+2025-12-11 06:50:07:926 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 1
+2025-12-11 06:50:07:926 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 1
+2025-12-11 06:50:07:927 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:50:07:927 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:50:07:927 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:50:07:927 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:50:07:927 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:50:07:929 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-3 - 2
+2025-12-11 06:50:07:929 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-0 - 2
+2025-12-11 06:50:07:929 +0000 [client-handler-backend-20001] INFO com.payroc.backend.BackendServer - Received request: Request body from client-2 - 2
+2025-12-11 06:50:07:929 +0000 [client-handler-backend-20004] INFO com.payroc.backend.BackendServer - Received request: Request body from client-1 - 2
+2025-12-11 06:50:07:929 +0000 [client-handler-backend-20002] INFO com.payroc.backend.BackendServer - Received request: Request body from client-4 - 2
+2025-12-11 06:50:07:929 +0000 [client-3] INFO com.payroc.client.Client - Received response: Response body from backend-20002
+2025-12-11 06:50:07:930 +0000 [client-0] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:930 +0000 [client-1] INFO com.payroc.client.Client - Received response: Response body from backend-20004
+2025-12-11 06:50:07:930 +0000 [client-2] INFO com.payroc.client.Client - Received response: Response body from backend-20001
+2025-12-11 06:50:07:930 +0000 [client-4] INFO com.payroc.client.Client - Received response: Response body from backend-20002
