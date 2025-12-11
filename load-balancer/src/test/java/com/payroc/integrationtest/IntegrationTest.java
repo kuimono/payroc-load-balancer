@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.payroc.config.Config;
 import com.payroc.loadbalancer.BackendHealthCheck;
 import com.payroc.loadbalancer.BackendSocketResolver;
 import com.payroc.loadbalancer.LoadBalancer;
@@ -20,13 +21,9 @@ public class IntegrationTest {
 
     public static void main(String[] args) {
         // configurations
-        List<String> backendHostAndPorts = List.of(
-            "localhost:20001",
-            "localhost:20002",
-            "localhost:20003",
-            "localhost:20004"
-        );
-        int lbPort = 20005;
+        Config config = Config.load("config.yaml");
+        int lbPort = config.getLoadBalancer().getPort();
+        List<String> backendHostAndPorts = config.getLoadBalancer().getBackendHostAndPorts();
 
         // create service instances
         List<BackendServer> backendServers = backendHostAndPorts.stream()
