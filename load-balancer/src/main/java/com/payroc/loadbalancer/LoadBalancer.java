@@ -1,9 +1,8 @@
 package com.payroc.loadbalancer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -38,25 +37,35 @@ public class LoadBalancer {
             String[] parts = backendHostAndPort.split(":");
             Socket backendSocket = new Socket(parts[0], Integer.parseInt(parts[1]));
             redirectToBackend(clientSocket, backendSocket);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             logger.error("Error handling client socket", e);
         }
     }
 
-    private void redirectToBackend(Socket clientSocket, Socket backendSocket) throws IOException {
+    private void redirectToBackend(Socket clientSocket, Socket backendSocket) throws IOException, InterruptedException {
         try(clientSocket;
             backendSocket;
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter newOut = new PrintWriter(backendSocket.getOutputStream(), true);
-            BufferedReader newIn = new BufferedReader(new InputStreamReader(backendSocket.getInputStream()));
+            InputStream clientInput = clientSocket.getInputStream();
+            OutputStream clientOutput = clientSocket.getOutputStream();
+            InputStream backendInput = backendSocket.getInputStream();
+            OutputStream backendOutput = backendSocket.getOutputStream();
         ) {
-            // here we assume the request and response are single-line messages
-            // TODO allow parallel transfer of data between clientSocket and newSocket
-            String request = in.readLine();
-            newOut.println(request);
-            String response = newIn.readLine();
-            out.println(response);
+            Thread requestThread = Thread.ofVirtual().name("client-to-backend").start(() -> {
+                try {
+                    clientInput.transferTo(backendOutput);
+                } catch (IOException e) {
+                    logger.error("Error redirecting from client to backend", e);
+                }
+            });
+            Thread responseThread = Thread.ofVirtual().name("backend-to-client").start(() -> {
+                try {
+                    backendInput.transferTo(clientOutput);
+                } catch (IOException e) {
+                    logger.error("Error redirecting from backend to client", e);
+                }
+            });
+            requestThread.join();
+            responseThread.join();
         }
     }
 }

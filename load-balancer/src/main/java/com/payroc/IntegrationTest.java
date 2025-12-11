@@ -66,6 +66,10 @@ public class IntegrationTest {
         pause(Duration.ofMillis(60000));
         backendThreads.get(2).interrupt();
 
+        // pause and send test messages again
+        pause(Duration.ofMillis(30000));
+        testSendMessage(lbPort);
+
         joinThread(healthCheckThread);
         joinThread(lbThread);
         backendThreads.forEach(IntegrationTest::joinThread);
