@@ -66,7 +66,7 @@ public class IntegrationTest {
         pause(Duration.ofMillis(60000));
         backendThreads.get(2).interrupt();
 
-        // pause and send test messages again
+        // pause and send test messages again with one backend down
         pause(Duration.ofMillis(30000));
         testSendMessage(lbPort);
 
