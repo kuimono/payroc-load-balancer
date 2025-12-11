@@ -1,10 +1,7 @@
 package com.payroc.config;
 
-import org.yaml.snakeyaml.Yaml;
-
-import com.payroc.Main;
-
 import lombok.Data;
+import org.yaml.snakeyaml.Yaml;
 
 @Data
 public class Config {
@@ -12,7 +9,7 @@ public class Config {
 
     public static Config load(String resourceFileName) {
         Yaml yaml = new Yaml();
-        try (var inputStream = Main.class.getClassLoader().getResourceAsStream(resourceFileName)) {
+        try (var inputStream = Config.class.getClassLoader().getResourceAsStream(resourceFileName)) {
             if (inputStream == null) {
                 throw new RuntimeException("Configuration file not found");
             }
