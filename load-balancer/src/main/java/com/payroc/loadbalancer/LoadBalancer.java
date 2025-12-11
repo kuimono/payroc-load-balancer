@@ -45,6 +45,7 @@ public class LoadBalancer {
 
     private void redirectToBackend(Socket clientSocket, Socket backendSocket) throws IOException {
         try(clientSocket;
+            backendSocket;
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter newOut = new PrintWriter(backendSocket.getOutputStream(), true);
